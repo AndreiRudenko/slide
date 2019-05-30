@@ -78,14 +78,6 @@ class TweenFn<T> extends Tween<T> implements ITween {
 
 	}
 
-	public function label(name:String):TweenFn<T> {
-
-		// add_action(new CallAction(this, fn));
-
-		return this;
-
-	}
-
 	public function onstart(f:Void->Void):TweenFn<T> {
 
 		_onstart = f;

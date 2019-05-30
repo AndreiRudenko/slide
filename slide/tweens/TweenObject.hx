@@ -87,14 +87,6 @@ class TweenObject<T> extends Tween<T> implements ITween {
 
 	}
 
-	public function label(name:String):TweenObject<T> {
-
-		// add_action(new CallAction(this, fn));
-
-		return this;
-
-	}
-
 	@:noCompletion
 	public macro function _pm<T>(self:ExprOf<T>, start:Expr, end:Expr, duration:ExprOf<Float>, backwards:ExprOf<Bool>):ExprOf<TweenObject<T>> {
 

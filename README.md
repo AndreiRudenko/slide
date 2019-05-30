@@ -33,11 +33,11 @@ Slide.tween(point)
         Slide.tween(point2).to({x:200, y:200}, 1) 
     );
 
-var t1 = Slide.tween([point, point2])
+var t = Slide.tween([point, point2])
     .to({x:100, y:100}, 1)
     .wait(1)
     .mt('set', [0, 64]);
-t1.start();
+t.start();
 
 //...
 Slide.step(dt);

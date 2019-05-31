@@ -3,7 +3,7 @@ Tween library for Haxe
 
 ## Features
 * Framework agnostic.
-* Callbacks on start/finish/cancel/update/pause/unpause.
+* Callbacks on start/stop/complete/update/repeat/pause/unpause.
 * Macro-powered, no haxe Reflect.
 * Chaining tween actions.
 

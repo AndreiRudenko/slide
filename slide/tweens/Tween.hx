@@ -264,8 +264,8 @@ class Tween<T> {
 			throw('Start & end args count must be same');
 		}
 		
-	    var fv:Array<Expr> = [];
-	    
+		var fv:Array<Expr> = [];
+		
 		for (i in 0...start_len) {
 			fv.push(macro v[$v{i}]);
 		}
@@ -285,5 +285,25 @@ class Tween<T> {
 		};
 
 	}
+
+	@:noCompletion
+	public static function get_props(props:Expr, fields:Array<String>, values:Array<Expr>) {
+		
+		switch (props.expr) {
+			case EObjectDecl(obj):
+				for (o in obj) {
+					if(fields.indexOf(o.field) != -1) {
+						throw('Property ${o.field} already exists');
+					}
+					fields.push(o.field);
+					values.push(o.expr);
+				}
+			case _:
+				trace(props);
+				throw('Invalid expression in props');
+		}
+
+	}
+
 
 }

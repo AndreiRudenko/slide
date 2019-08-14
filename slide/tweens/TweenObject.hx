@@ -118,24 +118,6 @@ class TweenObject<T> extends Tween<T> implements ITween {
 			case _: throw 'Invalid object type';
 		}
 
-		function get_props(props:Expr, fields:Array<String>, values:Array<Expr>) {
-			
-			switch (props.expr) {
-				case EObjectDecl(obj):
-					for (o in obj) {
-						if(fields.indexOf(o.field) != -1) {
-							throw('Property ${o.field} already exists');
-						}
-						fields.push(o.field);
-						values.push(o.expr);
-					}
-				case _:
-					trace(props);
-					throw('Invalid expression in props');
-			}
-
-		}
-
 		slide.tweens.Tween.get_props(end, prop_fields, to_values);
 
 		var has_start = switch (start.expr) {

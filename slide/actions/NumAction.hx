@@ -1,6 +1,5 @@
 package slide.actions;
 
-
 import slide.tweens.Tween;
 
 
@@ -51,5 +50,6 @@ class NumAction<T> extends TweenAction<T> {
 		_set_prop(_tween.target, v);
 
 	}
+	
 
 }

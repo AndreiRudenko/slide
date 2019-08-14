@@ -1,6 +1,5 @@
 package slide;
 
-
 import haxe.ds.ObjectMap;
 
 import slide.tweens.Tween;

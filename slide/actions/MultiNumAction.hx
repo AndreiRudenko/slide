@@ -1,6 +1,5 @@
 package slide.actions;
 
-
 import slide.tweens.Tween;
 
 
@@ -60,5 +59,6 @@ class MultiNumAction<T> extends TweenAction<T> {
 		_set_prop(_tween.target, _current);
 
 	}
+	
 
 }

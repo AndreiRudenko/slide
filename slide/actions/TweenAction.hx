@@ -1,6 +1,5 @@
 package slide.actions;
 
-
 import slide.tweens.Tween;
 
 
@@ -8,12 +7,12 @@ import slide.tweens.Tween;
 class TweenAction<T> {
 
 
-	public var active  	(default, null):Bool;
-	public var complete	(default, null):Bool;
+	public var active(default, null):Bool;
+	public var complete(default, null):Bool;
 
-	public var time    	(default, null):Float;
-	public var position	(default, null):Float;
-	public var duration	(default, null):Float;
+	public var time(default, null):Float;
+	public var position(default, null):Float;
+	public var duration(default, null):Float;
 
 	var _tween:Tween<T>;
 	var _inited:Bool;
@@ -105,5 +104,6 @@ class TweenAction<T> {
 
 	function init() {}
 	function apply(t:Float) {}
+
 
 }

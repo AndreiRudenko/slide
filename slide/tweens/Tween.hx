@@ -1,6 +1,5 @@
 package slide.tweens;
 
-
 import haxe.macro.Expr;
 import slide.actions.TweenAction;
 
@@ -12,11 +11,11 @@ typedef EaseFunc = Float->Float;
 class Tween<T> {
 
 
-	public var target (default, null):T;
+	public var target(default, null):T;
 
-	public var active   	(default, null):Bool;
-	public var complete   	(default, null):Bool;
-	public var paused       (default, set):Bool;
+	public var active(default, null):Bool;
+	public var complete(default, null):Bool;
+	public var paused(default, set):Bool;
 	public var timescale:Float;
 
 	var _next_tween:Tween<Dynamic>;

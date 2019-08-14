@@ -1,6 +1,5 @@
 package slide.tweens;
 
-
 import haxe.macro.Expr;
 import haxe.macro.Context;
 
@@ -186,6 +185,7 @@ class TweenObject<T> extends Tween<T> implements ITween {
 				}
 
 				return ret;
+				
 			}
 
 			return macro {

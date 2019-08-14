@@ -1,6 +1,5 @@
 package slide.tweens;
 
-
 import haxe.macro.Expr;
 import haxe.macro.Context;
 

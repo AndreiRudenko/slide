@@ -3,8 +3,9 @@ package slide.tweens;
 
 interface ITween {
 
-	public var active   	(default, null):Bool;
-	public var complete   	(default, null):Bool;
+
+	public var active(default, null):Bool;
+	public var complete(default, null):Bool;
 	
 	public function start(time:Float = 0):ITween;
 	public function stop(complete:Bool = false):Void;
@@ -18,5 +19,6 @@ interface ITween {
 	public function repeat(times:Int = -1):ITween;
 	public function reflect():ITween;
 	public function then(tween:Tween<Dynamic>):ITween;
+
 
 }

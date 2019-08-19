@@ -16,7 +16,7 @@ class Tween<T> {
 	public var active(default, null):Bool;
 	public var complete(default, null):Bool;
 	public var paused(default, set):Bool;
-	public var timescale:Float;
+	public var timescale(default, set):Float;
 
 	var _next_tween:Tween<Dynamic>;
 
@@ -243,6 +243,16 @@ class Tween<T> {
 		}
 
 		return paused = v;
+
+	}
+
+	function set_timescale(v:Float):Float {
+		
+		if(v < 0) {
+			v = 0;
+		}
+
+		return timescale = v;
 
 	}
 

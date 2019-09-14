@@ -7,8 +7,8 @@ import slide.tweens.Tween;
 class NumAction<T> extends TweenAction<T> {
 
 
-	var _get_prop:T->Float;
-	var _set_prop:T->Float->Void;
+	var _getProp:T->Float;
+	var _setProp:T->Float->Void;
 
 	var _from:Float;
 	var _difference:Float;
@@ -17,14 +17,14 @@ class NumAction<T> extends TweenAction<T> {
 	var _reverse:Bool;
 
 
-	public function new(tween:Tween<T>, get_prop:T->Float, set_prop:T->Float->Void, value:Float, duration:Float, reverse:Bool) {
+	public function new(tween:Tween<T>, getProp:T->Float, setProp:T->Float->Void, value:Float, duration:Float, reverse:Bool) {
 
 		super(tween, duration);
 
 		_tween = tween;
 
-		_get_prop = get_prop;
-		_set_prop = set_prop;
+		_getProp = getProp;
+		_setProp = setProp;
 		_to = value;
 		_reverse = reverse;
 
@@ -34,9 +34,9 @@ class NumAction<T> extends TweenAction<T> {
 
 		if(_reverse) {
 			_from = _to;
-			_to = _get_prop(_tween.target);
+			_to = _getProp(_tween.target);
 		} else {
-			_from = _get_prop(_tween.target);
+			_from = _getProp(_tween.target);
 		}
 
 		_difference = _to - _from;
@@ -47,7 +47,7 @@ class NumAction<T> extends TweenAction<T> {
 		
 		var v = _from + _difference * t;
 
-		_set_prop(_tween.target, v);
+		_setProp(_tween.target, v);
 
 	}
 	

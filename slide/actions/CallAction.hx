@@ -7,20 +7,20 @@ import slide.tweens.Tween;
 class CallAction<T> extends TweenAction<T> {
 
 
-	var call_fn:T->Void;
+	var callFn:T->Void;
 
 
 	public function new(tween:Tween<T>, fn:T->Void) {
 
 		super(tween, 0);
 
-		call_fn = fn;
+		callFn = fn;
 
 	}
 
 	override function start(t:Float) {
 
-		call_fn(_tween.target);
+		callFn(_tween.target);
 		complete = true;
 
 	}

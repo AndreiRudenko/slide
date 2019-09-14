@@ -23,12 +23,12 @@ class TweenFn<T> extends Tween<T> implements ITween {
 
 	}
 
-	public macro function update<T>(self:Expr, duration:ExprOf<Float>, start:ExprOf<Array<Float>> = null, end:ExprOf<Array<Float>> = null, manual_update:Bool = false):ExprOf<TweenFn<T>> {
+	public macro function update<T>(self:Expr, duration:ExprOf<Float>, start:ExprOf<Array<Float>> = null, end:ExprOf<Array<Float>> = null, manualUpdate:Bool = false):ExprOf<TweenFn<T>> {
 
 		return macro {
 			
 			$self._update(
-				slide.tweens.Tween.get_fn(null, $start, $end),
+				slide.tweens.Tween.getFn(null, $start, $end),
 				$duration,
 				$start,
 				$end
@@ -41,7 +41,7 @@ class TweenFn<T> extends Tween<T> implements ITween {
 	@:noCompletion 
 	public function _update(fn:T->Array<Float>->Void, duration:Float, start:Array<Float> = null, end:Array<Float> = null):TweenFn<T> {
 
-		add_action(new FnAction(this, fn, duration, start, end));
+		addAction(new FnAction(this, fn, duration, start, end));
 
 		return this;
 
@@ -63,7 +63,7 @@ class TweenFn<T> extends Tween<T> implements ITween {
 
 	public function wait(duration:Float):TweenFn<T> {
 
-		add_action(new TweenAction<T>(this, duration));
+		addAction(new TweenAction<T>(this, duration));
 
 		return this;
 
@@ -71,47 +71,47 @@ class TweenFn<T> extends Tween<T> implements ITween {
 
 	public function call(fn:T->Void):TweenFn<T> {
 
-		add_action(new CallAction(this, fn));
+		addAction(new CallAction(this, fn));
 
 		return this;
 
 	}
 
-	public function onstart(f:Void->Void):TweenFn<T> {
+	public function onStart(f:Void->Void):TweenFn<T> {
 
-		_onstart = f;
-
-		return this;
-
-	}
-
-	public function onstop(f:Void->Void):TweenFn<T> {
-
-		_onstop = f;
+		_onStart = f;
 
 		return this;
 
 	}
 
-	public function onupdate(f:Void->Void):TweenFn<T> {
+	public function onStop(f:Void->Void):TweenFn<T> {
 
-		_onupdate = f;
-
-		return this;
-
-	}
-
-	public function onrepeat(f:Void->Void):TweenFn<T> {
-
-		_onrepeat = f;
+		_onStop = f;
 
 		return this;
 
 	}
 
-	public function oncomplete(f:Void->Void):TweenFn<T> {
+	public function onUpdate(f:Void->Void):TweenFn<T> {
 
-		_oncomplete = f;
+		_onUpdate = f;
+
+		return this;
+
+	}
+
+	public function onRepeat(f:Void->Void):TweenFn<T> {
+
+		_onRepeat = f;
+
+		return this;
+
+	}
+
+	public function onComplete(f:Void->Void):TweenFn<T> {
+
+		_onComplete = f;
 
 		return this;
 
@@ -135,7 +135,7 @@ class TweenFn<T> extends Tween<T> implements ITween {
 
 	public function then(tween:Tween<Dynamic>):TweenFn<T> {
 
-		_next_tween = tween;
+		_nextTween = tween;
 
 		return this;
 

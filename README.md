@@ -16,7 +16,7 @@ Slide.tween(point)
     .wait(0.5)
     .to({x:0}, 0.5)
     .ease(slide.easing.Quad.easeIn)
-    .oncomplete(foo)
+    .onComplete(foo)
     .start();
 
 Slide.fun(foo)

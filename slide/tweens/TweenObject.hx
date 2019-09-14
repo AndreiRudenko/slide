@@ -35,7 +35,7 @@ class TweenObject<T> extends Tween<T> implements ITween {
 
 	}
 
-	public macro function from_to(self:Expr, start:Expr, end:Expr, duration:ExprOf<Float>) {
+	public macro function fromTo(self:Expr, start:Expr, end:Expr, duration:ExprOf<Float>) {
 
 		return macro $self._pm($start, $end, $duration, false);
 
@@ -46,7 +46,7 @@ class TweenObject<T> extends Tween<T> implements ITween {
 		return macro {
 
 			$self._mt(
-				slide.tweens.Tween.get_fn($_name, $start, $end),
+				slide.tweens.Tween.getFn($_name, $start, $end),
 				$duration,
 				$start,
 				$end
@@ -58,17 +58,17 @@ class TweenObject<T> extends Tween<T> implements ITween {
 
 	public macro function set<T>(self:ExprOf<T>, expr:Expr):ExprOf<TweenObject<T>> {
 
-		var field_names:Array<String> = [];
+		var fieldNames:Array<String> = [];
 		var values:Array<Expr> = [];
 
-		slide.tweens.Tween.get_props(expr, field_names, values);
+		slide.tweens.Tween.getProps(expr, fieldNames, values);
 
 		var exprs:Array<Expr> = [];
 		var fname:String;
 		var fvalue:Expr;
 
-		for (j in 0...field_names.length) {
-			fname = field_names[j];
+		for (j in 0...fieldNames.length) {
+			fname = fieldNames[j];
 			fvalue = values[j];
 			exprs.push(macro t.$fname = $fvalue);
 		}
@@ -87,7 +87,7 @@ class TweenObject<T> extends Tween<T> implements ITween {
 
 	public function wait(duration:Float):TweenObject<T> {
 
-		add_action(new TweenAction<T>(this, duration));
+		addAction(new TweenAction<T>(this, duration));
 
 		return this;
 
@@ -95,7 +95,7 @@ class TweenObject<T> extends Tween<T> implements ITween {
 
 	public function call(fn:T->Void):TweenObject<T> {
 
-		add_action(new CallAction(this, fn));
+		addAction(new CallAction(this, fn));
 
 		return this;
 
@@ -104,11 +104,11 @@ class TweenObject<T> extends Tween<T> implements ITween {
 	@:noCompletion
 	public macro function _pm<T>(self:ExprOf<T>, start:Expr, end:Expr, duration:ExprOf<Float>, backwards:ExprOf<Bool>):ExprOf<TweenObject<T>> {
 
-		var prop_fields:Array<String> = [];
-		var from_values:Array<Expr> = [];
-		var to_values:Array<Expr> = [];
+		var propFields:Array<String> = [];
+		var fromValues:Array<Expr> = [];
+		var toValues:Array<Expr> = [];
 
-		var is_target_array = switch (Context.typeof(self)) {
+		var isTargetArray = switch (Context.typeof(self)) {
 			case TInst(_, p): 
 				switch (p[0]) {
 					case TInst(_.get() => t, _): t.name == 'Array';
@@ -117,32 +117,32 @@ class TweenObject<T> extends Tween<T> implements ITween {
 			case _: throw 'Invalid object type';
 		}
 
-		slide.tweens.Tween.get_props(end, prop_fields, to_values);
+		slide.tweens.Tween.getProps(end, propFields, toValues);
 
-		var has_start = switch (start.expr) {
+		var hasStart = switch (start.expr) {
 			case EConst(CIdent("null")): false;
 			case _: true;
 		}
 
-		if(has_start) {
-			var start_fields:Array<String> = [];
-			slide.tweens.Tween.get_props(start, start_fields, from_values);
+		if(hasStart) {
+			var startFields:Array<String> = [];
+			slide.tweens.Tween.getProps(start, startFields, fromValues);
 
-			for (ef in prop_fields) {
-				if(start_fields.indexOf(ef) == -1) {
+			for (ef in propFields) {
+				if(startFields.indexOf(ef) == -1) {
 					throw('Field $ef not exist in start props');
 				}
 			}
-			for (sf in start_fields) {
-				if(prop_fields.indexOf(sf) == -1) {
+			for (sf in startFields) {
+				if(propFields.indexOf(sf) == -1) {
 					throw('Field $sf not exist in end props');
 				}
 			}
 		}
 
-		if(is_target_array || prop_fields.length > 1) {
+		if(isTargetArray || propFields.length > 1) {
 
-			function handle_getset(props:Array<String>, st:Array<Expr>, set:Bool, ta:Bool) {
+			function handleGetset(props:Array<String>, st:Array<Expr>, set:Bool, ta:Bool) {
 
 				var hs = st.length > 0;
 				var ret:Expr;
@@ -189,23 +189,23 @@ class TweenObject<T> extends Tween<T> implements ITween {
 			}
 
 			return macro {
-				$self._prop_mult(
+				$self._propMult(
 					function(t,v){
-						${handle_getset(prop_fields, from_values, true, is_target_array)};
+						${handleGetset(propFields, fromValues, true, isTargetArray)};
 					},
 					function(t,v){
-						${handle_getset(prop_fields, from_values, false, is_target_array)};
+						${handleGetset(propFields, fromValues, false, isTargetArray)};
 					},
-					$a{to_values},
+					$a{toValues},
 					$duration,
 					$backwards
 				);
 			};
 		} else {
-			var fname = prop_fields[0];
-			var fv = to_values[0];
+			var fname = propFields[0];
+			var fv = toValues[0];
 
-			function handle_get(props:Array<String>, st:Array<Expr>) {
+			function handleGet(props:Array<String>, st:Array<Expr>) {
 
 				if(st.length > 0) {
 					return macro ${st[0]};
@@ -219,7 +219,7 @@ class TweenObject<T> extends Tween<T> implements ITween {
 			return macro {
 				$self._prop(
 					function(t){
-						return ${handle_get(prop_fields, from_values)};
+						return ${handleGet(propFields, fromValues)};
 					},
 					function(t,v){
 						t.$fname = v;
@@ -234,18 +234,18 @@ class TweenObject<T> extends Tween<T> implements ITween {
 	}
 
 	@:noCompletion 
-	public function _prop(get_prop:T->Float, set_prop:T->Float->Void, value:Float, duration:Float, backwards:Bool):TweenObject<T> {
+	public function _prop(getProp:T->Float, setProp:T->Float->Void, value:Float, duration:Float, backwards:Bool):TweenObject<T> {
 
-		add_action(new NumAction<T>(this, get_prop, set_prop, value, duration, backwards));
+		addAction(new NumAction<T>(this, getProp, setProp, value, duration, backwards));
 
 		return this;
 
 	}
 
 	@:noCompletion 
-	public function _prop_mult(get_prop:T->Array<Float>->Void, set_prop:T->Array<Float>->Void, values:Array<Float>, duration:Float, backwards:Bool):TweenObject<T> {
+	public function _propMult(getProp:T->Array<Float>->Void, setProp:T->Array<Float>->Void, values:Array<Float>, duration:Float, backwards:Bool):TweenObject<T> {
 
-		add_action(new MultiNumAction<T>(this, get_prop, set_prop, values, duration, backwards));
+		addAction(new MultiNumAction<T>(this, getProp, setProp, values, duration, backwards));
 
 		return this;
 
@@ -254,47 +254,47 @@ class TweenObject<T> extends Tween<T> implements ITween {
 	@:noCompletion 
 	public function _mt(fn:T->Array<Float>->Void, duration:Float, start:Array<Float> = null, end:Array<Float> = null):TweenObject<T> {
 
-		add_action(new FnAction(this, fn, duration, start, end));
+		addAction(new FnAction(this, fn, duration, start, end));
 
 		return this;
 
 	}
 
-	public function onstart(f:Void->Void):TweenObject<T> {
+	public function onStart(f:Void->Void):TweenObject<T> {
 
-		_onstart = f;
-
-		return this;
-
-	}
-
-	public function onstop(f:Void->Void):TweenObject<T> {
-
-		_onstop = f;
+		_onStart = f;
 
 		return this;
 
 	}
 
-	public function onupdate(f:Void->Void):TweenObject<T> {
+	public function onStop(f:Void->Void):TweenObject<T> {
 
-		_onupdate = f;
-
-		return this;
-
-	}
-
-	public function onrepeat(f:Void->Void):TweenObject<T> {
-
-		_onrepeat = f;
+		_onStop = f;
 
 		return this;
 
 	}
 
-	public function oncomplete(f:Void->Void):TweenObject<T> {
+	public function onUpdate(f:Void->Void):TweenObject<T> {
 
-		_oncomplete = f;
+		_onUpdate = f;
+
+		return this;
+
+	}
+
+	public function onRepeat(f:Void->Void):TweenObject<T> {
+
+		_onRepeat = f;
+
+		return this;
+
+	}
+
+	public function onComplete(f:Void->Void):TweenObject<T> {
+
+		_onComplete = f;
 
 		return this;
 
@@ -318,7 +318,7 @@ class TweenObject<T> extends Tween<T> implements ITween {
 
 	public function then(tween:Tween<Dynamic>):TweenObject<T> {
 
-		_next_tween = tween;
+		_nextTween = tween;
 
 		return this;
 

@@ -81,7 +81,7 @@ class TweenAction<T> {
 			time += t * _tween.timescale;
 			
 			if(time >= duration) {
-				_tween._time_remains = time - duration;
+				_tween._timeRemains = time - duration;
 				finish();
 			} else {
 				position = (_tween._backwards ? duration - time : time) / duration;

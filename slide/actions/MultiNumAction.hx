@@ -7,8 +7,8 @@ import slide.tweens.Tween;
 class MultiNumAction<T> extends TweenAction<T> {
 
 
-	var _get_prop:T->Array<Float>->Void;
-	var _set_prop:T->Array<Float>->Void;
+	var _getProp:T->Array<Float>->Void;
+	var _setProp:T->Array<Float>->Void;
 
 	var _from:Array<Float>;
 	var _difference:Array<Float>;
@@ -18,12 +18,12 @@ class MultiNumAction<T> extends TweenAction<T> {
 	var _reverse:Bool;
 
 
-	public function new(tween:Tween<T>, get_prop:T->Array<Float>->Void, set_prop:T->Array<Float>->Void, values:Array<Float>, duration:Float, reverse:Bool) {
+	public function new(tween:Tween<T>, getProp:T->Array<Float>->Void, setProp:T->Array<Float>->Void, values:Array<Float>, duration:Float, reverse:Bool) {
 
 		super(tween, duration);
 
-		_get_prop = get_prop;
-		_set_prop = set_prop;
+		_getProp = getProp;
+		_setProp = setProp;
 		_from = [];
 		_difference = [];
 		_current = [];
@@ -38,9 +38,9 @@ class MultiNumAction<T> extends TweenAction<T> {
 			var tmp = _from;
 			_from = _to;
 			_to = tmp;
-			_get_prop(_tween.target, _to);
+			_getProp(_tween.target, _to);
 		} else {
-			_get_prop(_tween.target, _from);
+			_getProp(_tween.target, _from);
 		}
 
 
@@ -56,7 +56,7 @@ class MultiNumAction<T> extends TweenAction<T> {
 			_current[i] = _from[i] + _difference[i] * t;
 		}
 
-		_set_prop(_tween.target, _current);
+		_setProp(_tween.target, _current);
 
 	}
 	

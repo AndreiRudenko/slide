@@ -7,27 +7,27 @@ import slide.tweens.Tween;
 class FnAction<T> extends TweenAction<T> {
 
 
-	var from:Array<Float>;
-	var current:Array<Float>;
-	var difference:Array<Float>;
-	var fn:T->Array<Float>->Void;
+	var _from:Array<Float>;
+	var _current:Array<Float>;
+	var _difference:Array<Float>;
+	var _fn:T->Array<Float>->Void;
 
 
 	public function new(tween:Tween<T>, fn:T->Array<Float>->Void, duration:Float, from:Array<Float> = null, to:Array<Float> = null) {
 
 		super(tween, duration);
 
-		this.fn = fn;
-		difference = [];
-		current = [];
+		_fn = fn;
+		_difference = [];
+		_current = [];
 
 		if(from != null && to != null) {
-			this.from = from.copy();
-			for (i in 0...from.length) {
-				difference[i] = to[i] - from[i];
+			_from = from.copy();
+			for (i in 0..._from.length) {
+				_difference[i] = to[i] - _from[i];
 			}
 		} else {	
-			from = [];
+			_from = [];
 		}
 		
 	}
@@ -35,12 +35,12 @@ class FnAction<T> extends TweenAction<T> {
 	override function apply(t:Float) {
 
 		var n:Float = 0;
-		for (i in 0...from.length) {
-			n = from[i] + difference[i] * t;
-			current[i] = n;
+		for (i in 0..._from.length) {
+			n = _from[i] + _difference[i] * t;
+			_current[i] = n;
 		}
 		
-		fn(_tween.target, current);
+		_fn(_tween.target, _current);
 
 	}
 

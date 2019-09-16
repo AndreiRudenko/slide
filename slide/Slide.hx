@@ -10,7 +10,7 @@ import slide.tweens.TweenObject;
 @:allow(slide.tweens.Tween)
 @:access(slide.tweens.Tween)
 class Slide {
-	// dasdasd
+	
 
 	static var _activeTweens:Array<Tween<Dynamic>> = [];
 	static var _targets:ObjectMap<Dynamic, Array<Tween<Dynamic>>> = new ObjectMap();

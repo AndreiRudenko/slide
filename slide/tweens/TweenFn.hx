@@ -93,6 +93,22 @@ class TweenFn<T> extends Tween<T> implements ITween {
 
 	}
 
+	public function onPause(f:Void->Void):TweenFn<T> {
+
+		_onPause = f;
+
+		return this;
+
+	}
+
+	public function onResume(f:Void->Void):TweenFn<T> {
+
+		_onResume = f;
+
+		return this;
+
+	}
+	
 	public function onUpdate(f:Void->Void):TweenFn<T> {
 
 		_onUpdate = f;

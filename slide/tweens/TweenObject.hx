@@ -276,6 +276,22 @@ class TweenObject<T> extends Tween<T> implements ITween {
 
 	}
 
+	public function onPause(f:Void->Void):TweenObject<T> {
+
+		_onPause = f;
+
+		return this;
+
+	}
+
+	public function onResume(f:Void->Void):TweenObject<T> {
+
+		_onResume = f;
+
+		return this;
+
+	}
+
 	public function onUpdate(f:Void->Void):TweenObject<T> {
 
 		_onUpdate = f;

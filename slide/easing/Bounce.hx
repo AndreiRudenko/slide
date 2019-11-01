@@ -4,6 +4,13 @@ package slide.easing;
 class Bounce {
 
 
+	static inline var B1:Float = 1 / 2.75;
+	static inline var B2:Float = 2 / 2.75;
+	static inline var B3:Float = 1.5 / 2.75;
+	static inline var B4:Float = 2.5 / 2.75;
+	static inline var B5:Float = 2.25 / 2.75;
+	static inline var B6:Float = 2.625 / 2.75;
+
 	public static inline function easeIn(t:Float):Float {
 
 		t = 1 - t;

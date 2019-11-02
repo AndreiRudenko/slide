@@ -18,7 +18,7 @@ class Cubic {
 
 	public static inline function easeInOut(t:Float):Float {
 
-		return t <= .5 ? t * t * t * 4 : 1 + (--t) * t * t * 4;
+		return t <= 0.5 ? t * t * t * 4 : 1 + (--t) * t * t * 4;
 
 	}
 

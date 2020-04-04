@@ -88,6 +88,9 @@ class Tween<T> {
 
 		if(dt > 0) {
 			_action.step(dt);
+			if(_onUpdate != null) {
+				_onUpdate();
+			}
 			checkNext();
 		}
 	}

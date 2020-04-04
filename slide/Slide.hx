@@ -6,31 +6,23 @@ import slide.tweens.Tween;
 import slide.tweens.TweenFn;
 import slide.tweens.TweenObject;
 
-
 @:allow(slide.tweens.Tween)
 @:access(slide.tweens.Tween)
 class Slide {
-	
 
 	static var _activeTweens:Array<Tween<Dynamic>> = [];
 	static var _targets:ObjectMap<Dynamic, Array<Tween<Dynamic>>> = new ObjectMap();
 	static var _checkTime:Int = 0;
 
-
 	public static function tween<T>(target:T, manualUpdate:Bool = false):TweenObject<T> {
-
 		return new TweenObject(target, manualUpdate);
-		
 	}
 
 	public static function fun<T>(target:T, manualUpdate:Bool = false):TweenFn<T> {
-
 		return new TweenFn(target, manualUpdate);
-
 	}
 
 	public static function stop(target:Dynamic) {
-		
 		var tweens = _targets.get(target);
 
 		if(tweens != null) {
@@ -38,11 +30,9 @@ class Slide {
 				t.stop();
 			}
 		}
-
 	}
 
 	public static function step(time:Float) {
-
 		for (s in _activeTweens) {
 			s.step(time);
 		}
@@ -58,11 +48,9 @@ class Slide {
 				}
 			}
 		}
-
 	}
 
 	static function addTargetTween<T>(tween:Tween<T>, target:T) {
-
 		var _targetTweens = _targets.get(target);
 		if(_targetTweens == null) {
 			_targetTweens = [];
@@ -70,11 +58,9 @@ class Slide {
 		}
 		
 		_targetTweens.push(tween);
-
 	}
 
 	static function removeTargetTween<T>(tween:Tween<T>, target:T) {
-
 		var targetTweens = _targets.get(target);
 
 		if(targetTweens != null) {
@@ -83,14 +69,10 @@ class Slide {
 				_targets.remove(target);
 			}
 		}
-
 	}
 
 	static function addTween<T>(tween:Tween<T>) {
-
 		_activeTweens.push(tween);
-
 	}
-
 
 }

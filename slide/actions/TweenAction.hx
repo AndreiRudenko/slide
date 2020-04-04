@@ -2,10 +2,8 @@ package slide.actions;
 
 import slide.tweens.Tween;
 
-
 @:access(slide.tweens.Tween)
 class TweenAction<T> {
-
 
 	public var active(default, null):Bool;
 	public var complete(default, null):Bool;
@@ -20,9 +18,7 @@ class TweenAction<T> {
 	var _prev:TweenAction<T>;
 	var _next:TweenAction<T>;
 
-
 	public function new(tween:Tween<T>, duration:Float) {
-
 		active = false;
 		complete = false;
 
@@ -32,13 +28,10 @@ class TweenAction<T> {
 
 		_tween = tween;
 		_inited = false;
-
 	}
 
 	public function start(time:Float) {
-
 		if(!active) {
-
 			active = true;
 			complete = false;
 			
@@ -55,27 +48,20 @@ class TweenAction<T> {
 			} else {
 				finish();
 			}
-
 		}
-
 	}
 	
 	public function stop() {
-
 		active = false;
-
 	}
 
 	function step(dt:Float) {
-
 		if(active) {
 			advance(dt);
 		}
-
 	}
 
 	function advance(t:Float) {
-
 		if(t > 0) {
 			
 			time += t * _tween.timescale;
@@ -89,21 +75,17 @@ class TweenAction<T> {
 			}
 
 		}
-
 	}
 
 	function finish() {
-
 		stop();
 		complete = true;
 		time = duration;
 		position = _tween._backwards ? 0 : 1;
 		apply(position);
-
 	}
 
 	function init() {}
 	function apply(t:Float) {}
-
 
 }

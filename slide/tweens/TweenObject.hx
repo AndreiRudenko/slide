@@ -10,39 +10,27 @@ import slide.actions.MultiNumAction;
 import slide.actions.CallAction;
 import slide.actions.FnAction;
 
-
 @:access(slide.actions.TweenAction)
 class TweenObject<T> extends Tween<T> implements ITween {
 
-
 	public function start(time:Float = 0):TweenObject<T> {
-
 		begin(time);
-
 		return this;
-
 	}
 
 	public macro function to(self:Expr, props:Expr, duration:ExprOf<Float>):ExprOf<TweenObject<T>> {
-
 		return macro $self._pm(null, $props, $duration, false);
-
 	}
 
 	public macro function from(self:Expr, props:Expr, duration:ExprOf<Float>) {
-
 		return macro $self._pm(null, $props, $duration, true);
-
 	}
 
 	public macro function fromTo(self:Expr, start:Expr, end:Expr, duration:ExprOf<Float>) {
-
 		return macro $self._pm($start, $end, $duration, false);
-
 	}
 
 	public macro function mt(self:Expr, name:ExprOf<String>, duration:ExprOf<Float>, start:ExprOf<Array<Float>> = null, end:ExprOf<Array<Float>> = null):ExprOf<TweenAction<T>> {
-
 		return macro {
 
 			$self._mt(
@@ -53,11 +41,9 @@ class TweenObject<T> extends Tween<T> implements ITween {
 			);
 
 		};
-
 	}
 
 	public macro function set<T>(self:ExprOf<T>, expr:Expr):ExprOf<TweenObject<T>> {
-
 		var fieldNames:Array<String> = [];
 		var values:Array<Expr> = [];
 
@@ -74,36 +60,26 @@ class TweenObject<T> extends Tween<T> implements ITween {
 		}
 
 		return macro {
-
 			$self.call(
 				function(t){
 					$a{exprs};
 				}
 			);
-
 		};
-
 	}
 
 	public function wait(duration:Float):TweenObject<T> {
-
 		addAction(new TweenAction<T>(this, duration));
-
 		return this;
-
 	}
 
 	public function call(fn:T->Void):TweenObject<T> {
-
 		addAction(new CallAction(this, fn));
-
 		return this;
-
 	}
 
 	@:noCompletion
 	public macro function _pm<T>(self:ExprOf<T>, start:Expr, end:Expr, duration:ExprOf<Float>, backwards:ExprOf<Bool>):ExprOf<TweenObject<T>> {
-
 		var propFields:Array<String> = [];
 		var fromValues:Array<Expr> = [];
 		var toValues:Array<Expr> = [];
@@ -141,9 +117,7 @@ class TweenObject<T> extends Tween<T> implements ITween {
 		}
 
 		if(isTargetArray || propFields.length > 1) {
-
 			function handleGetSet(props:Array<String>, startValues:Array<Expr>, get:Bool, targetArray:Bool) {
-
 				var hasStartValues = startValues.length > 0;
 				var ret:Expr;
 				var exprs:Array<Expr> = [];
@@ -185,7 +159,6 @@ class TweenObject<T> extends Tween<T> implements ITween {
 				}
 
 				return ret;
-				
 			}
 
 			return macro {
@@ -206,14 +179,12 @@ class TweenObject<T> extends Tween<T> implements ITween {
 			var fv = toValues[0];
 
 			function handleGet(props:Array<String>, startValues:Array<Expr>) {
-
 				if(startValues.length > 0) {
 					return macro ${startValues[0]};
 				} else {
 					var f = props[0];
 					return macro t.$f;
 				}
-
 			}
 
 			return macro {
@@ -230,123 +201,79 @@ class TweenObject<T> extends Tween<T> implements ITween {
 				);
 			};
 		}
-
 	}
 
 	@:noCompletion 
 	public function _prop(getProp:T->Float, setProp:T->Float->Void, value:Float, duration:Float, backwards:Bool):TweenObject<T> {
-
 		addAction(new NumAction<T>(this, getProp, setProp, value, duration, backwards));
-
 		return this;
-
 	}
 
 	@:noCompletion 
 	public function _propMult(getProp:T->Array<Float>->Void, setProp:T->Array<Float>->Void, values:Array<Float>, duration:Float, backwards:Bool):TweenObject<T> {
-
 		addAction(new MultiNumAction<T>(this, getProp, setProp, values, duration, backwards));
-
 		return this;
-
 	}
 
 	@:noCompletion 
 	public function _mt(fn:T->Array<Float>->Void, duration:Float, start:Array<Float> = null, end:Array<Float> = null):TweenObject<T> {
-
 		addAction(new FnAction(this, fn, duration, start, end));
-
 		return this;
-
 	}
 
 	public function onStart(f:Void->Void):TweenObject<T> {
-
 		_onStart = f;
-
 		return this;
-
 	}
 
 	public function onStop(f:Void->Void):TweenObject<T> {
-
 		_onStop = f;
-
 		return this;
-
 	}
 
 	public function onPause(f:Void->Void):TweenObject<T> {
-
 		_onPause = f;
-
 		return this;
-
 	}
 
 	public function onResume(f:Void->Void):TweenObject<T> {
-
 		_onResume = f;
-
 		return this;
-
 	}
 
 	public function onUpdate(f:Void->Void):TweenObject<T> {
-
 		_onUpdate = f;
-
 		return this;
-
 	}
 
 	public function onRepeat(f:Void->Void):TweenObject<T> {
-
 		_onRepeat = f;
-
 		return this;
-
 	}
 
 	public function onComplete(f:Void->Void):TweenObject<T> {
-
 		_onComplete = f;
-
 		return this;
-
 	}
 
 	public function repeat(times:Int = -1):TweenObject<T> {
-
 		_repeat = times;
-		
 		return this;
-
 	}
 
 	public function reflect():TweenObject<T> {
-
 		_reflect = true;
-		
 		return this;
-
 	}
 
 	public function then(tween:Tween<Dynamic>):TweenObject<T> {
-
 		_nextTween = tween;
-
 		return this;
-
 	}
 
 	public function ease(easing:EaseFunc):TweenObject<T> {
-
 		_easing = easing;
-
 		return this;
-
 	}
-
 
 }

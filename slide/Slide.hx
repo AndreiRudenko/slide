@@ -22,12 +22,12 @@ class Slide {
 		return new TweenFn(target, manualUpdate);
 	}
 
-	public static function stop(target:Dynamic) {
+	public static function stop(target:Dynamic, complete:Bool = false) {
 		var tweens = _targets.get(target);
 
 		if(tweens != null) {
 			for (t in tweens) {
-				t.stop();
+				t.stop(complete);
 			}
 		}
 	}

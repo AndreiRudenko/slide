@@ -1,0 +1,10 @@
+-main Main
+-cp slide/tests
+
+--library slide
+--library hx3compat
+
+--js build/test.js
+
+# -D analyzer-optimize
+

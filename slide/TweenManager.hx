@@ -31,86 +31,39 @@ interface ITweenManager {
 example usage:
 final obj = { x : 0.0, y : 0.0 };
 
-final tween = tweenManager.animateTo(obj, { x: 100 }, 1, Quad.easeIn);
-final tween = tweenManager.animateTo(obj, { x: 300, y: 200 }, 1, Quad.easeIn);
+tweenManager.animateTo(obj, { x: 100 }, 1, Quad.easeIn).start();
+tweenManager.animateTo(obj, { x: 300, y: 200 }, 1, Quad.easeIn).start();
 
-final tween = tweenManager.animateFrom(obj, { x: 100 }, 1, Quad.easeIn);
-final tween = tweenManager.animateFrom(obj, { x: 100, y: 200 }, 1, Quad.easeIn);
+tweenManager.animateFrom(obj, { x: 100 }, 1, Quad.easeIn).start();
+tweenManager.animateFrom(obj, { x: 100, y: 200 }, 1, Quad.easeIn).start();
 
-final tween = tweenManager.animateFromTo(obj, { x: 100 }, { x: 200 }, 1, Quad.easeIn);
-final tween = tweenManager.animateFromTo(obj, { x: 100, y: 200 }, { x: 200, y: 300 }, 1, Quad.easeIn);
+tweenManager.animateFromTo(obj, { x: 100 }, { x: 200 }, 1, Quad.easeIn).start();
+tweenManager.animateFromTo(obj, { x: 100, y: 200 }, { x: 200, y: 300 }, 1, Quad.easeIn).start();
 
-final tween = tweenManager.animateBy(obj, { x: 100 }, 1, Quad.easeIn);
-final tween = tweenManager.animateBy(obj, { x: 100, y: 200 }, 1, Quad.easeIn);
+tweenManager.animateBy(obj, { x: 100 }, 1, Quad.easeIn).start();
+tweenManager.animateBy(obj, { x: 100, y: 200 }, 1, Quad.easeIn).start();
 
-final tween = tweenManager.animateAlong(obj, { x: [100, 200, 50] }, 1, Quad.easeIn);
-final tween = tweenManager.animateAlong(obj, { x: [100, 200, 50], y: [200, 300, 100, 500] }, 1, Quad.easeIn);
+tweenManager.animateAlong(obj, { x: [100, 200, 50] }, 1, Quad.easeIn).start();
+tweenManager.animateAlong(obj, { x: [100, 200, 50], y: [200, 300, 100, 500] }, 1, Quad.easeIn).start();
 
-final tween = tweenManager.sequence([
+tweenManager.sequence([
 	tweenManager.animateTo(obj, { x: 100 }, 1),
 	tweenManager.delay(0.5),
 	tweenManager.animateTo(obj, { x: 100, y: 200 }, 1)
-]);
+]).start();
 
-final tween = tweenManager.parallel([
+tweenManager.parallel([
 	tweenManager.animateTo(obj, { x: 100 }, 1),
 	tweenManager.animateTo(obj2, { x: 100, y: 200 }, 1)
-]);
+]).start();
 
-final tween = tweenManager.delay(0.5, doSomething);
+tweenManager.delay(0.5, doSomething).start();
 
-final tween = tweenManager.animateTo(obj, { x: 100 }, 1, Quad.easeIn);
+final tween = tweenManager.animateTo(obj, { x: 100 }, 1, Quad.easeIn).start();
 tween.stop();
 
 tweenManager.stopAll();
 tweenManager.completeAll();
-
-interface TweenManager implements TweenGroup {
-	function animateTo(target:Dynamic, props:Dynamic, duration:Float, ?ease:Float->Float, ?onComplete:Void->Void):Tween;
-	function animateFrom(target:Dynamic, props:Dynamic, duration:Float, ?ease:Float->Float, ?onComplete:Void->Void):Tween;
-	function animateFromTo(target:Dynamic, startProps:Dynamic, endProps:Dynamic, duration:Float, ?ease:Float->Float, ?onComplete:Void->Void):Tween;
-	function animateBy(target:Dynamic, props:Dynamic, duration:Float, ?ease:Float->Float, ?onComplete:Void->Void):Tween;
-	function animateAlong(target:Dynamic, props:Dynamic, duration:Float, ?ease:Float->Float, ?onComplete:Void->Void):Tween;
-	function delay(duration:Float, ?onComplete:()->Void):Tween;
-	function sequence(tweens:Array<Tween>, ?onComplete:()->Void):Tween;
-	function parallel(tweens:Array<Tween>, ?onComplete:()->Void):Tween;
-	function update(elapsed:Float):Void;
-	function stopAll():Void;
-	function completeAll():Void;
-}
-
-interface Tween {
-	var isStarted(default, null):Bool;
-	var isComplete(default, null):Bool;
-	var isPaused(default, null):Bool;
-	var isYoyo(default, null):Bool;
-	
-	var repeatCount(default, null):Int;
-	var repeatIndex(default, null):Int;
-
-	function start(group:TweenGroup, startTime:Float = 0, overrideStartValues:Bool = true):Void;
-	function stop():Void;
-	function complete():Void;
-	function reset():Void;
-	function pause():Void;
-	function resume():Void;
-
-	function update(elapsed:Float):Float;
-
-	function repeat(times:Int = -1):Tween;
-	function yoyo(v:Bool = true):Tween;
-
-	function onRepeat(fn:Void->Void):Tween;
-	function onComplete(fn:Void->Void):Tween;
-	function onUpdate(fn:Void->Void):Tween;
-	function onStart(fn:Void->Void):Tween;
-	function onStop(fn:Void->Void):Tween;
-	function onReset(fn:Void->Void):Tween;
-	function onPause(fn:Void->Void):Tween;
-	function onResume(fn:Void->Void):Tween;
-}
-
-
 
 methods:
 

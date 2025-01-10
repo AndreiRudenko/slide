@@ -1,7 +1,7 @@
 {
 	"name": "slide",
 	"url": "https://github.com/RudenkoArts/slide",
-	"license": "zlib",
+	"license": "MIT",
 	"tags": ["tween", "animation", "cross"],
 	"description": "tween library",
 	"version": "0.3.0",

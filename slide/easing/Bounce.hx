@@ -19,11 +19,11 @@ class Bounce {
 	}
 
 	public static inline function easeInOut(t:Float):Float {
-		if (t < 0.5) {
-			return easeIn(t * 2) * 0.5;
-		} else {
-			return easeOut(t * 2 - 1) * 0.5 + 0.5;
-		}
-	}	
+        return t < 0.5 ? easeIn(2 * t) / 2 : 0.5 + easeOut(2 * t - 1) / 2;
+	}
+
+	public static inline function easeOutIn(t:Float):Float {
+        return t < 0.5 ? easeOut(2 * t) / 2 : 0.5 + easeIn(2 * t - 1) / 2;
+	}
 		
 }

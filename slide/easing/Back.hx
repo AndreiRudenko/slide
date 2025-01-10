@@ -7,16 +7,15 @@ class Back {
 	}
 	
 	public static inline function easeOut(t:Float):Float {
-		return 1 - (--t) * (t) * (-2.70158 * t - 1.70158);
+		return 1 - easeIn(1 - t);
 	}
 
 	public static inline function easeInOut(t:Float):Float {
-		t *= 2;
-		if (t < 1) {
-			return t * t * (2.70158 * t - 1.70158) / 2;
-		}
-		t--;
-		return (1 - (--t) * (t) * (-2.70158 * t - 1.70158)) / 2 + 0.5;
-	}	
+        return t < 0.5 ? easeIn(2 * t) / 2 : 0.5 + easeOut(2 * t - 1) / 2;
+	}
 
+	public static inline function easeOutIn(t:Float):Float {
+        return t < 0.5 ? easeOut(2 * t) / 2 : 0.5 + easeIn(2 * t - 1) / 2;
+	}
+	
 }

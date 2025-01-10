@@ -17,7 +17,7 @@ class TestTweenAnimateAlong extends TestTweenAnimate {
 	function testStartSingleValueWithTime() {
 		var tween = tweenManager.animateAlong(testObject, {x: [100]}, 1);
 
-		tween.start(tweenManager, 0.5);
+		tween.start(0.5);
 		tween.update(0.1);
 		assertEqualsWithEpsilon(100, testObject.x);
 	}
@@ -25,7 +25,7 @@ class TestTweenAnimateAlong extends TestTweenAnimate {
 	function testStartThreeValuesWithTime() {
 		var tween = tweenManager.animateAlong(testObject, {x: [0, 50, 100]}, 1);
 
-		tween.start(tweenManager, 0.5);
+		tween.start(0.5);
 		tween.update(0.1);
 		assertEqualsWithEpsilon(60, testObject.x);
 	}
@@ -33,7 +33,7 @@ class TestTweenAnimateAlong extends TestTweenAnimate {
 	function testStartMultipleSingleValueWithTime() {
 		var tween = tweenManager.animateAlong(testObject, {x: [100], y: [200]}, 1);
 
-		tween.start(tweenManager, 0.5);
+		tween.start(0.5);
 		tween.update(0.1);
 		assertEqualsWithEpsilon(100, testObject.x);
 		assertEqualsWithEpsilon(200, testObject.y);
@@ -42,7 +42,7 @@ class TestTweenAnimateAlong extends TestTweenAnimate {
 	function testStartMultipleThreeValuesWithTime() {
 		var tween = tweenManager.animateAlong(testObject, {x: [0, 50, 100], y: [0, 100, 200]}, 1);
 
-		tween.start(tweenManager, 0.5);
+		tween.start(0.5);
 		tween.update(0.1);
 		assertEqualsWithEpsilon(60, testObject.x);
 		assertEqualsWithEpsilon(120, testObject.y);

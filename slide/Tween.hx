@@ -1,6 +1,6 @@
 package slide;
 
-import slide.tweens.TweenGroup;
+import slide.tweens.TweenObserver;
 
 interface Tween {
 	var isStarted(default, null):Bool;
@@ -11,13 +11,15 @@ interface Tween {
 	var repeatCount(default, null):Int;
 	var repeatIndex(default, null):Int;
 
-	function start(group:TweenGroup, startTime:Float = 0, overrideStartValues:Bool = true):Void;
-	private function startInternal(group:TweenGroup, startTime:Float, overrideStartValues:Bool, flipReverse:Bool):Void;
+	function start(startTime:Float = 0, overrideStartValues:Bool = true):Void;
+	private function startInternal(startTime:Float, overrideStartValues:Bool, flipReverse:Bool):Void;
 	function stop():Void;
 	function complete():Void;
 	function reset():Void;
 	function pause():Void;
 	function resume():Void;
+
+	@:noCompletion function setObserver(tweenObserver:TweenObserver):Void;
 
 	function update(elapsed:Float):Float;
 

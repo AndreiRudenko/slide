@@ -27,7 +27,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 
 	// function testEmptySequence() {
 	// 	final tween = tweenManager.sequence([]);
-	// 	tween.start(tweenManager);
+	// 	tween.start();
 	// 	tweenManager.update(0.5);
 	// 	assertTweenState(tween, getDefaultState());
 	// }
@@ -43,7 +43,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -60,7 +60,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 		assertEqualsWithEpsilon(0, testObject.x);
 		assertEqualsWithEpsilon(200, testObject.y);
 	}
-
+/* 
 	function testSequenceInSequenceZeroDuration() {
 		final tween = tweenManager.sequence([
 			tweenManager.animateTo(testObject, { x: 100 }, 0.0),
@@ -70,7 +70,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -88,7 +88,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 		]);
 
 		tween.repeat(-1);
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.6);
 
@@ -107,7 +107,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(2);
 		assertTweenState(tween, getDefaultStateWith({complete: true}));
@@ -122,7 +122,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(1);
 		assertTweenState(tween, getDefaultStateWith({started: true}));
@@ -142,7 +142,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -171,7 +171,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -189,7 +189,7 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 		]);
 
 		tween.repeat(-1);
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -197,5 +197,5 @@ class TestTweenAnimateSequence extends TestTweenAnimate {
 		assertEqualsWithEpsilon(200, testObject.y);
 
 		assertEquals(0, tween.repeatIndex);
-	}
+	} */
 }

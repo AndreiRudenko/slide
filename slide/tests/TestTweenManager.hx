@@ -28,8 +28,8 @@ class TestTweenManager extends TestCaseExt {
 	// region Lifecycle
 
 	function testStopAllAnimateTweens() {
-		tweenManager.animateTo(testObject, {x: 100}, 1).start(tweenManager);
-		tweenManager.animateTo(testObject, {y: 100}, 1).start(tweenManager);
+		tweenManager.animateTo(testObject, {x: 100}, 1).start();
+		tweenManager.animateTo(testObject, {y: 100}, 1).start();
 
 		assertEquals(2, @:privateAccess tweenManager.tweenList.length);
 		tweenManager.stopAll();
@@ -41,12 +41,12 @@ class TestTweenManager extends TestCaseExt {
 		tweenManager.sequence([
 			tweenManager.animateTo(testObject, {x: 100}, 1),
 			tweenManager.animateTo(testObject, {y: 100}, 1)
-		]).start(tweenManager);
+		]).start();
 
 		tweenManager.sequence([
 			tweenManager.animateTo(testObject, {x: 200}, 1),
 			tweenManager.animateTo(testObject, {y: 300}, 1)
-		]).start(tweenManager);
+		]).start();
 
 		assertEquals(2, @:privateAccess tweenManager.tweenList.length);
 		tweenManager.stopAll();
@@ -58,12 +58,12 @@ class TestTweenManager extends TestCaseExt {
 		tweenManager.parallel([
 			tweenManager.animateTo(testObject, {x: 100}, 1),
 			tweenManager.animateTo(testObject, {y: 100}, 1)
-		]).start(tweenManager);
+		]).start();
 
 		tweenManager.parallel([
 			tweenManager.animateTo(testObject, {x: 200}, 1),
 			tweenManager.animateTo(testObject, {y: 300}, 1)
-		]).start(tweenManager);
+		]).start();
 
 		assertEquals(2, @:privateAccess tweenManager.tweenList.length);
 		tweenManager.stopAll();
@@ -72,8 +72,8 @@ class TestTweenManager extends TestCaseExt {
 	}
 
 	function testCompleteAllAnimateTweens() {
-		tweenManager.animateTo(testObject, {x: 100}, 1).start(tweenManager);
-		tweenManager.animateTo(testObject, {y: 100}, 1).start(tweenManager);
+		tweenManager.animateTo(testObject, {x: 100}, 1).start();
+		tweenManager.animateTo(testObject, {y: 100}, 1).start();
 
 		assertEquals(2, @:privateAccess tweenManager.tweenList.length);
 		tweenManager.completeAll();
@@ -88,13 +88,13 @@ class TestTweenManager extends TestCaseExt {
 		tweenManager.sequence([
 			tweenManager.animateTo(testObject, {x: 100}, 1),
 			tweenManager.animateTo(testObject, {y: 200}, 1)
-		]).start(tweenManager);
+		]).start();
 
 		var testObject2 = new TestObject();
 		tweenManager.sequence([
 			tweenManager.animateTo(testObject2, {x: 200}, 1),
 			tweenManager.animateTo(testObject2, {y: 300}, 1)
-		]).start(tweenManager);
+		]).start();
 
 		assertEquals(2, @:privateAccess tweenManager.tweenList.length);
 		tweenManager.completeAll();
@@ -112,13 +112,13 @@ class TestTweenManager extends TestCaseExt {
 		tweenManager.parallel([
 			tweenManager.animateTo(testObject, {x: 100}, 1),
 			tweenManager.animateTo(testObject, {y: 200}, 1)
-		]).start(tweenManager);
+		]).start();
 
 		var testObject2 = new TestObject();
 		tweenManager.parallel([
 			tweenManager.animateTo(testObject2, {x: 200}, 1),
 			tweenManager.animateTo(testObject2, {y: 300}, 1)
-		]).start(tweenManager);
+		]).start();
 
 		assertEquals(2, @:privateAccess tweenManager.tweenList.length);
 		tweenManager.completeAll();
@@ -134,10 +134,10 @@ class TestTweenManager extends TestCaseExt {
 
 	function testStartStopMultipleTimes() {
 		var tween = tweenManager.animateTo(testObject, {x: 100}, 1);
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 
 		assertEquals(0, @:privateAccess tweenManager.tweenList.length);
@@ -152,10 +152,10 @@ class TestTweenManager extends TestCaseExt {
 
 		tween.onUpdate(() -> {
 			var tween2 = tweenManager.animateTo(testObject, {y: 100}, 1);
-			tween2.start(tweenManager);
+			tween2.start();
 		});
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertEquals(1, @:privateAccess tweenManager.tweenList.length);
 
@@ -175,7 +175,7 @@ class TestTweenManager extends TestCaseExt {
 			tween.stop();
 		});
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertEquals(1, @:privateAccess tweenManager.tweenList.length);
 
@@ -191,7 +191,7 @@ class TestTweenManager extends TestCaseExt {
 			tween.complete();
 		});
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertEquals(1, @:privateAccess tweenManager.tweenList.length);
 
@@ -208,7 +208,7 @@ class TestTweenManager extends TestCaseExt {
 			tween.stop();
 		});
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertEquals(1, @:privateAccess tweenManager.tweenList.length);
 
@@ -229,7 +229,7 @@ class TestTweenManager extends TestCaseExt {
 			tween.complete();
 		});
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertEquals(1, @:privateAccess tweenManager.tweenList.length);
 
@@ -248,11 +248,11 @@ class TestTweenManager extends TestCaseExt {
 
 		tween.onUpdate(() -> {
 			var tween2 = tweenManager.animateTo(testObject, {y: 100}, 1);
-			tween2.start(tweenManager);
+			tween2.start();
 			tween2.stop();
 		});
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertEquals(1, @:privateAccess tweenManager.tweenList.length);
 

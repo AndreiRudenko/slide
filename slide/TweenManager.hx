@@ -2,7 +2,7 @@ package slide;
 
 import haxe.macro.Expr;
 
-import slide.tweens.TweenGroup;
+import slide.tweens.TweenObserver;
 import slide.tweens.TweenEmpty;
 import slide.tweens.TweenSingle;
 import slide.tweens.TweenSingleBy;
@@ -28,39 +28,36 @@ interface ITweenManager {
 }
 
 /* 
-напиши мне readme.md для репозитория моей библиотеки твиннинга “Slide” на языке Haxe. 
-Используй английский язык для readme
-
 example usage:
 final obj = { x : 0.0, y : 0.0 };
 
-tweenManager.animateTo(obj, { x: 100 }, 1, Quad.easeIn);
-tweenManager.animateTo(obj, { x: 300, y: 200 }, 1, Quad.easeIn);
+final tween = tweenManager.animateTo(obj, { x: 100 }, 1, Quad.easeIn);
+final tween = tweenManager.animateTo(obj, { x: 300, y: 200 }, 1, Quad.easeIn);
 
-tweenManager.animateFrom(obj, { x: 100 }, 1, Quad.easeIn);
-tweenManager.animateFrom(obj, { x: 100, y: 200 }, 1, Quad.easeIn);
+final tween = tweenManager.animateFrom(obj, { x: 100 }, 1, Quad.easeIn);
+final tween = tweenManager.animateFrom(obj, { x: 100, y: 200 }, 1, Quad.easeIn);
 
-tweenManager.animateFromTo(obj, { x: 100 }, { x: 200 }, 1, Quad.easeIn);
-tweenManager.animateFromTo(obj, { x: 100, y: 200 }, { x: 200, y: 300 }, 1, Quad.easeIn);
+final tween = tweenManager.animateFromTo(obj, { x: 100 }, { x: 200 }, 1, Quad.easeIn);
+final tween = tweenManager.animateFromTo(obj, { x: 100, y: 200 }, { x: 200, y: 300 }, 1, Quad.easeIn);
 
-tweenManager.animateBy(obj, { x: 100 }, 1, Quad.easeIn);
-tweenManager.animateBy(obj, { x: 100, y: 200 }, 1, Quad.easeIn);
+final tween = tweenManager.animateBy(obj, { x: 100 }, 1, Quad.easeIn);
+final tween = tweenManager.animateBy(obj, { x: 100, y: 200 }, 1, Quad.easeIn);
 
-tweenManager.animateAlong(obj, { x: [100, 200, 50] }, 1, Quad.easeIn);
-tweenManager.animateAlong(obj, { x: [100, 200, 50], y: [200, 300, 100, 500] }, 1, Quad.easeIn);
+final tween = tweenManager.animateAlong(obj, { x: [100, 200, 50] }, 1, Quad.easeIn);
+final tween = tweenManager.animateAlong(obj, { x: [100, 200, 50], y: [200, 300, 100, 500] }, 1, Quad.easeIn);
 
-tweenManager.sequence([
+final tween = tweenManager.sequence([
 	tweenManager.animateTo(obj, { x: 100 }, 1),
 	tweenManager.delay(0.5),
 	tweenManager.animateTo(obj, { x: 100, y: 200 }, 1)
 ]);
 
-tweenManager.parallel([
+final tween = tweenManager.parallel([
 	tweenManager.animateTo(obj, { x: 100 }, 1),
 	tweenManager.animateTo(obj2, { x: 100, y: 200 }, 1)
 ]);
 
-tweenManager.delay(0.5, doSomething);
+final tween = tweenManager.delay(0.5, doSomething);
 
 final tween = tweenManager.animateTo(obj, { x: 100 }, 1, Quad.easeIn);
 tween.stop();
@@ -68,8 +65,6 @@ tween.stop();
 tweenManager.stopAll();
 tweenManager.completeAll();
 
-
-эта часть только для тебя чтобы ты знал какой функционал у нее есть:
 interface TweenManager implements TweenGroup {
 	function animateTo(target:Dynamic, props:Dynamic, duration:Float, ?ease:Float->Float, ?onComplete:Void->Void):Tween;
 	function animateFrom(target:Dynamic, props:Dynamic, duration:Float, ?ease:Float->Float, ?onComplete:Void->Void):Tween;
@@ -140,7 +135,7 @@ var t = tweenManager.animateTo(pos, { x: 100, y: 200 }, 1).onUpdate(function() {
 
 */
 
-class TweenManager implements TweenGroup {
+class TweenManager implements TweenObserver {
 
 	final commandQueue:Array<TweenManagerCommand> = [];
 	final tweenList:Array<Tween> = [];
@@ -171,18 +166,21 @@ class TweenManager implements TweenGroup {
 
 	public function delay(duration:Float, ?onComplete:()->Void):Tween {
 		final tween = new TweenEmpty(duration);
+		tween.setObserver(this);
 		tween.onComplete(onComplete);
 		return tween;
 	}
 
 	public function sequence(tweens:Array<Tween>, ?onComplete:()->Void):Tween {
 		final tween = new TweenSequence(tweens);
+		tween.setObserver(this);
 		tween.onComplete(onComplete);
 		return tween;
 	}
 
 	public function parallel(tweens:Array<Tween>, ?onComplete:()->Void):Tween {
 		final tween = new TweenParallel(tweens);
+		tween.setObserver(this);
 		tween.onComplete(onComplete);
 		return tween;
 	}
@@ -219,11 +217,11 @@ class TweenManager implements TweenGroup {
 		executeCommandQueue();
 	}
 
-	function tweenStarted(obj:Tween):Void {
+	function onTweenStarted(obj:Tween):Void {
 		addTween(obj);
 	}
 
-	function tweenStopped(obj:Tween):Void {
+	function onTweenStopped(obj:Tween):Void {
 		removeTween(obj);
 	}
 
@@ -269,6 +267,7 @@ class TweenManager implements TweenGroup {
 	@:noCompletion
 	public function animateSingle<T>(target:T, getProp:T->Float, setProp:(T, Float)->Void, targetValue:Float, duration:Float, ?easing:(t:Float)->Float, ?onComplete:()->Void, swapFromTo:Bool):Tween {
 		final tween = new TweenSingle(target, getProp, setProp, targetValue, duration, easing, swapFromTo);
+		tween.setObserver(this);
 		tween.onComplete(onComplete);
 		return tween;
 	}
@@ -276,6 +275,7 @@ class TweenManager implements TweenGroup {
 	@:noCompletion
 	public function animateMultiple<T>(target:T, getProp:T->Array<Float>->Void, setProp:T->Array<Float>->Void, targetValues:Array<Float>, duration:Float, ?easing:(t:Float)->Float, ?onComplete:()->Void, swapFromTo:Bool):Tween {
 		final tween = new TweenMultiple(target, getProp, setProp, targetValues, duration, easing, swapFromTo);
+		tween.setObserver(this);
 		tween.onComplete(onComplete);
 		return tween;
 	}
@@ -283,6 +283,7 @@ class TweenManager implements TweenGroup {
 	@:noCompletion
 	public function animateSingleBy<T>(target:T, getProp:T->Float, setProp:(T, Float)->Void, amount:Float, duration:Float, ?easing:(t:Float)->Float, ?onComplete:()->Void):Tween {
 		final tween = new TweenSingleBy(target, getProp, setProp, amount, duration, easing);
+		tween.setObserver(this);
 		tween.onComplete(onComplete);
 		return tween;
 	}
@@ -290,6 +291,7 @@ class TweenManager implements TweenGroup {
 	@:noCompletion
 	public function animateMultipleBy<T>(target:T, getProp:T->Array<Float>->Void, setProp:T->Array<Float>->Void, amount:Array<Float>, duration:Float, ?easing:(t:Float)->Float, ?onComplete:()->Void):Tween {
 		final tween = new TweenMultipleBy(target, getProp, setProp, amount, duration, easing);
+		tween.setObserver(this);
 		tween.onComplete(onComplete);
 		return tween;
 	}
@@ -297,6 +299,7 @@ class TweenManager implements TweenGroup {
 	@:noCompletion
 	public function animateSingleAlong<T>(target:T, getProp:T->Float, setProp:(T, Float)->Void, values:Array<Float>, duration:Float, ?easing:(t:Float)->Float, ?onComplete:()->Void):Tween {
 		final tween = new TweenSingleAlong(target, getProp, setProp, values, duration, easing);
+		tween.setObserver(this);
 		tween.onComplete(onComplete);
 		return tween;
 	}
@@ -304,6 +307,7 @@ class TweenManager implements TweenGroup {
 	@:noCompletion
 	public function animateMultipleAlong<T>(target:T, getProp:T->Array<Float>->Void, setProp:T->Array<Float>->Void, values:Array<Array<Float>>, duration:Float, ?easing:(t:Float)->Float, ?onComplete:()->Void):Tween {
 		final tween = new TweenMultipleAlong(target, getProp, setProp, values, duration, easing);
+		tween.setObserver(this);
 		tween.onComplete(onComplete);
 		return tween;
 	}

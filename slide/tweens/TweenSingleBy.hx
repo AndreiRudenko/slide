@@ -31,7 +31,6 @@ class TweenSingleBy<T> extends TweenEmpty {
 
 	override function positionChanged(position:Float) {
 		final value = from + difference * position;
-
 		setProp(target, value);
 	}
 

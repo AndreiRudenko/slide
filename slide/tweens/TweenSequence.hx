@@ -1,30 +1,25 @@
 package slide.tweens;
 
-class TweenSequence extends TweenBase implements TweenGroup {
+class TweenSequence extends TweenBase implements TweenObserver {
 
 	var tweens:Array<Tween>;
 
 	var currentTweenIndex:Int = 0;
 	var currentTween:Tween;
-	var group:TweenGroup;
 
 	var overrideStartValues:Bool = true;
 
 	public function new(tweens:Array<Tween>) {
 		this.tweens = tweens;
+		setObserverForTweens();
 	}
 
-	final public function start(group:TweenGroup, startTime:Float = 0, overrideStartValues:Bool = true) {
-		startInternal(group, startTime, overrideStartValues, false);
+	final public function start(startTime:Float = 0, overrideStartValues:Bool = true) {
+		startInternal(startTime, overrideStartValues, false);
 	}
 
-	final function startInternal(group:TweenGroup, startTime:Float, overrideStartValues:Bool, reverse:Bool) {
+	final function startInternal(startTime:Float, overrideStartValues:Bool, reverse:Bool) {
 		if (isStarted) return;
-
-		if (group == null) {
-			trace("TweenSequence: Group is null when starting tween. Ignoring start request.");
-			return;
-		}
 
 		if (tweens.length == 0) {
 			trace("TweenSequence: No tweens in sequence. Ignoring start request.");
@@ -42,10 +37,9 @@ class TweenSequence extends TweenBase implements TweenGroup {
 		currentTweenIndex = getStartTweenIndex();
 		currentTween = getTween(currentTweenIndex);
 
-		currentTween.startInternal(this, startTime, overrideStartValues, isReverse);
+		currentTween.startInternal(startTime, overrideStartValues, isReverse);
 
-		this.group = group;
-		group.tweenStarted(this);
+		observer?.onTweenStarted(this);
 
 		callOnStart();
 	}
@@ -56,8 +50,7 @@ class TweenSequence extends TweenBase implements TweenGroup {
 		isStarted = false;
 		isUpdating = false;
 
-		group.tweenStopped(this);
-		group = null;
+		observer?.onTweenStopped(this);
 
 		for (t in tweens) {
 			t.stop();
@@ -116,7 +109,7 @@ class TweenSequence extends TweenBase implements TweenGroup {
 
 			if (indexInBounds(currentTweenIndex)) {
 				currentTween = getTween(currentTweenIndex);
-				currentTween.startInternal(this, 0, overrideStartValues, isReverse);
+				currentTween.startInternal(0, overrideStartValues, isReverse);
 				overflowTime = currentTween.update(overflowTime);
 				updatedTweenCount++;
 				continue;
@@ -143,7 +136,7 @@ class TweenSequence extends TweenBase implements TweenGroup {
 
 			currentTweenIndex = getStartTweenIndex();
 			currentTween = getTween(currentTweenIndex);
-			currentTween.startInternal(this, 0, overrideStartValues, isReverse); // TODO: move after repeat callback?
+			currentTween.startInternal(0, overrideStartValues, isReverse); // TODO: move after repeat callback?
 			overflowTime = currentTween.update(overflowTime);
 			updatedTweenCount++;
 		}
@@ -185,6 +178,12 @@ class TweenSequence extends TweenBase implements TweenGroup {
 		return isReverse ? -1 : 1;
 	}
 
+	function setObserverForTweens() {
+		for (t in tweens) {
+			t.setObserver(this);
+		}
+	}
+
 	function resetState() {
 		isStarted = false;
 		isComplete = false;
@@ -194,7 +193,7 @@ class TweenSequence extends TweenBase implements TweenGroup {
 		repeatIndex = 0;
 	}
 
-	function tweenStarted(obj:Tween) {}
-	function tweenStopped(obj:Tween) {}
+	function onTweenStarted(tween:Tween) {}
+	function onTweenStopped(tween:Tween) {}
 
 }

@@ -22,13 +22,18 @@ abstract class TweenBase implements Tween {
 	var onResetCallback:Void->Void;
 	var onPauseCallback:Void->Void;
 	var onResumeCallback:Void->Void;
+	var observer:TweenObserver;
 
-	abstract public function start(group:TweenGroup, startTime:Float = 0, overrideStartValues:Bool = true):Void;
-	abstract function startInternal(group:TweenGroup, startTime:Float, overrideStartValues:Bool, flipReverse:Bool):Void;
+	abstract public function start(startTime:Float = 0, overrideStartValues:Bool = true):Void;
+	abstract function startInternal(startTime:Float, overrideStartValues:Bool, flipReverse:Bool):Void;
 	abstract public function stop():Void;
 	abstract public function reset():Void;
 	abstract public function complete():Void;
 	abstract public function update(elapsed:Float):Float;
+
+	public function setObserver(tweenObserver:TweenObserver):Void {
+		observer = tweenObserver;
+	}
 
 	public function pause() {
 		isPaused = true;

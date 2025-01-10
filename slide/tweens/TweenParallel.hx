@@ -1,27 +1,22 @@
 package slide.tweens;
 
-class TweenParallel extends TweenBase implements TweenGroup {
+class TweenParallel extends TweenBase implements TweenObserver {
 
-	var tweens:Array<Tween>;
+	final tweens:Array<Tween>;
 	var activeTweens:Array<Tween> = [];
 	var toRemove:Array<Tween> = [];
-	var group:TweenGroup;
 
 	public function new(tweens:Array<Tween>) {
 		this.tweens = tweens;
+		setObserverForTweens();
 	}
 
-	final public function start(group:TweenGroup, startTime:Float = 0, overrideStartValues:Bool = true) {
-		startInternal(group, startTime, overrideStartValues, false);
+	final public function start(startTime:Float = 0, overrideStartValues:Bool = true) {
+		startInternal(startTime, overrideStartValues, false);
 	}
 
-	final function startInternal(group:TweenGroup, startTime:Float, overrideStartValues:Bool, reverse:Bool) {
+	final function startInternal(startTime:Float, overrideStartValues:Bool, reverse:Bool) {
 		if (isStarted) return;
-		
-		if (group == null) {
-			trace("TweenParallel: Group is null when starting tween. Ignoring start request.");
-			return;
-		}
 
 		if (tweens.length == 0) {
 			trace("TweenParallel: No tweens in sequence. Ignoring start request.");
@@ -37,8 +32,7 @@ class TweenParallel extends TweenBase implements TweenGroup {
 		copyTweensToActive();
 		startTweens(startTime, overrideStartValues, isReverse);
 
-		this.group = group;
-		group.tweenStarted(this);
+		observer?.onTweenStarted(this);
 
 		callOnStart();
 	}
@@ -49,8 +43,7 @@ class TweenParallel extends TweenBase implements TweenGroup {
 		isStarted = false;
 		isUpdating = false;
 
-		group.tweenStopped(this);
-		group = null;
+		observer?.onTweenStopped(this);
 
 		for (a in tweens) {
 			a.stop();
@@ -164,7 +157,7 @@ class TweenParallel extends TweenBase implements TweenGroup {
 
 	function startTweens(startTime:Float, overrideStartValues:Bool, reverse:Bool){
 		for (a in activeTweens) {
-			a.startInternal(this, startTime, overrideStartValues, reverse);
+			a.startInternal(startTime, overrideStartValues, reverse);
 		}
 	}
 
@@ -173,6 +166,13 @@ class TweenParallel extends TweenBase implements TweenGroup {
 		
 		for (i in 0...tweens.length) {
 			activeTweens[i] = tweens[i];
+		}
+	}
+
+
+	function setObserverForTweens() {
+		for (t in tweens) {
+			t.setObserver(this);
 		}
 	}
 
@@ -194,7 +194,7 @@ class TweenParallel extends TweenBase implements TweenGroup {
 		repeatIndex = 0;
 	}
 
-	function tweenStarted(obj:Tween) {}
-	function tweenStopped(obj:Tween) {}
+	function onTweenStarted(tween:Tween) {}
+	function onTweenStopped(tween:Tween) {}
 
 }

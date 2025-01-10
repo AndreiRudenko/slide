@@ -30,7 +30,7 @@ class TestTweenAnimateParallel extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -51,7 +51,7 @@ class TestTweenAnimateParallel extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -69,7 +69,7 @@ class TestTweenAnimateParallel extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.1);
 
@@ -86,7 +86,7 @@ class TestTweenAnimateParallel extends TestTweenAnimate {
 		]);
 
 		tween.repeat(-1);
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -107,7 +107,7 @@ class TestTweenAnimateParallel extends TestTweenAnimate {
 		]);
 
 		tween.repeat(-1);
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.2);
 
@@ -126,7 +126,7 @@ class TestTweenAnimateParallel extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.6);
 		assertTweenState(tween, getDefaultStateWith({started: true}));
@@ -145,7 +145,7 @@ class TestTweenAnimateParallel extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -166,7 +166,7 @@ class TestTweenAnimateParallel extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.5);
 
@@ -184,7 +184,7 @@ class TestTweenAnimateParallel extends TestTweenAnimate {
 			])
 		]);
 
-		tween.start(tweenManager);
+		tween.start();
 
 		tweenManager.update(0.1);
 

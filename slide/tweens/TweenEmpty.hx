@@ -1,8 +1,6 @@
 package slide.tweens;
 
 class TweenEmpty extends TweenBase {
-
-	var group:TweenGroup;
 	
 	var time:Float = 0;
 	var duration:Float;
@@ -15,17 +13,12 @@ class TweenEmpty extends TweenBase {
 		if (easing == null) this.easing = slide.easing.Linear.none;
 	}
 	
-	final public function start(group:TweenGroup, startTime:Float = 0, overrideStartValues:Bool = true) {
-		startInternal(group, startTime, overrideStartValues, false);
+	final public function start(startTime:Float = 0, overrideStartValues:Bool = true) {
+		startInternal(startTime, overrideStartValues, false);
 	}
 
-	final function startInternal(group:TweenGroup, startTime:Float, overrideStartValues:Bool, reverse:Bool) {
+	final function startInternal(startTime:Float, overrideStartValues:Bool, reverse:Bool) {
 		if (isStarted) return;
-
-		if (group == null) {
-			trace("Tween: Group is null when starting tween. Ignoring start request.");
-			return;
-		}
 
 		if (isInfinityRepeat() && duration <= 0) {
 			trace("Tween has infinite repeat and duration of 0, ignoring start call");
@@ -42,8 +35,7 @@ class TweenEmpty extends TweenBase {
 		isReverse = reverse;
 		time = startTime;
 
-		this.group = group;
-		group.tweenStarted(this);
+		observer?.onTweenStarted(this);
 
 		callOnStart();
 	}
@@ -54,8 +46,7 @@ class TweenEmpty extends TweenBase {
 		isStarted = false;
 		isUpdating = false;
 
-		group.tweenStopped(this);
-		group = null;
+		observer?.onTweenStopped(this);
 
 		callOnStop();
 	}

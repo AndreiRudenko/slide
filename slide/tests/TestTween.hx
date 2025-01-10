@@ -25,7 +25,7 @@ abstract class TestTween extends TestCaseExt {
 
 		assertTweenState(tween, getDefaultState());
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertTweenState(tween, getDefaultStateWith({started: true}));
 	}
@@ -33,7 +33,7 @@ abstract class TestTween extends TestCaseExt {
 	function testStop() {
 		var tween = createTween();
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 
 		assertTweenState(tween, getDefaultState());
@@ -42,9 +42,9 @@ abstract class TestTween extends TestCaseExt {
 	function testStartStopStart() {
 		var tween = createTween();
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
-		tween.start(tweenManager);
+		tween.start();
 
 		assertTweenState(tween, getDefaultStateWith({started: true}));
 	}
@@ -53,7 +53,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 
 		tween.pause();
-		tween.start(tweenManager);
+		tween.start();
 
 		assertTweenState(tween, getDefaultStateWith({started: true, paused: true}));
 	}
@@ -87,7 +87,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdate() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 
 		assertEqualsWithEpsilon(50, testObject.x);
@@ -96,7 +96,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdateWithNoDuration() {
 		var tween = createTween(100, 0);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 
 		assertEqualsWithEpsilon(100, testObject.x);
@@ -106,7 +106,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween(100, 0);
 		tween.repeat(1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 
 		assertEqualsWithEpsilon(100, testObject.x);
@@ -116,7 +116,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdateWithNoElapsed() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0);
 
 		assertEqualsWithEpsilon(0, testObject.x);
@@ -125,7 +125,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdateStop() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 		tween.stop();
 		tween.update(0.5);
@@ -136,7 +136,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdatePause() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 		tween.pause();
 		tween.update(0.5);
@@ -147,7 +147,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdateResume() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.pause();
 		tween.update(0.5);
 		tween.resume();
@@ -159,7 +159,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdateReset() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 
 		assertEqualsWithEpsilon(50, testObject.x);
@@ -173,7 +173,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdateResetPaused() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 		tween.pause();
 		tween.reset();
@@ -185,7 +185,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdateIsComplete() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 
 		assertTweenState(tween, getDefaultStateWith({started: true}));
@@ -198,7 +198,7 @@ abstract class TestTween extends TestCaseExt {
 	function testUpdateComplete() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 		tween.complete();
 
@@ -213,7 +213,7 @@ abstract class TestTween extends TestCaseExt {
 		var called = false;
 		tween.onStart(() -> {called = true;});
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertTrue(called);
 	}
@@ -223,7 +223,7 @@ abstract class TestTween extends TestCaseExt {
 		var called = false;
 		tween.onStop(() -> {called = true;});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 
 		assertTrue(called);
@@ -255,7 +255,7 @@ abstract class TestTween extends TestCaseExt {
 		var called = false;
 		tween.onUpdate(() -> {called = true;});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 
 		assertTrue(called);
@@ -267,7 +267,7 @@ abstract class TestTween extends TestCaseExt {
 		tween.onRepeat(() -> {called = true;});
 		tween.repeat(1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 
 		assertTrue(called);
@@ -278,7 +278,7 @@ abstract class TestTween extends TestCaseExt {
 		var called = false;
 		tween.onComplete(() -> {called = true;});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 
 		assertTrue(called);
@@ -289,7 +289,7 @@ abstract class TestTween extends TestCaseExt {
 		var called = false;
 		tween.onReset(() -> {called = true;});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.reset();
 
 		assertTrue(called);
@@ -341,45 +341,45 @@ abstract class TestTween extends TestCaseExt {
 
 		resetOrder();
 		tween = createTweenWithCallbacks();
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 		assertEqualArrays(["start", "stop"], order);
 
 		resetOrder();
 		tween = createTweenWithCallbacks();
-		tween.start(tweenManager);
+		tween.start();
 		tween.reset();
 		assertEqualArrays(["start", "stop", "reset"], order);
 
 		resetOrder();
 		tween = createTweenWithCallbacks();
-		tween.start(tweenManager);
+		tween.start();
 		tween.complete();
 		assertEqualArrays(["start", "stop", "complete"], order);
 
 		resetOrder();
 		tween = createTweenWithCallbacks();
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 		tween.stop();
 		assertEqualArrays(["start", "update", "stop"], order);
 
 		resetOrder();
 		tween = createTweenWithCallbacks();
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.5);
 		tween.reset();
 		assertEqualArrays(["start", "update", "stop", "reset"], order);
 
 		resetOrder();
 		tween = createTweenWithCallbacks();
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 		assertEqualArrays(["start", "update", "stop", "complete"], order);
 
 		resetOrder();
 		tween = createTweenWithCallbacks();
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 		tween.reset();
 		assertEqualArrays(["start", "update", "stop", "complete", "reset"], order);
@@ -387,14 +387,14 @@ abstract class TestTween extends TestCaseExt {
 		resetOrder();
 		tween = createTweenWithCallbacks();
 		tween.repeat(1);
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 		assertEqualArrays(["start", "update", "repeat"], order);
 
 		resetOrder();
 		tween = createTweenWithCallbacks();
 		tween.repeat(1);
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 		tween.update(1);
 		assertEqualArrays(["start", "update", "repeat", "update", "stop", "complete"], order);
@@ -409,7 +409,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onStart(() -> {tween.stop();});
 
-		tween.start(tweenManager);
+		tween.start();
 		assertTweenState(tween, getDefaultState());
 	}
 	
@@ -417,7 +417,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onStart(() -> {tween.pause();});
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertTweenState(tween, getDefaultStateWith({started: true, paused: true}));
 	}
@@ -427,7 +427,7 @@ abstract class TestTween extends TestCaseExt {
 		tween.onStart(() -> {tween.resume();});
 
 		tween.pause();
-		tween.start(tweenManager);
+		tween.start();
 		
 		assertTweenState(tween, getDefaultStateWith({started:true}));
 	}
@@ -436,7 +436,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onStart(() -> {tween.reset();});
 
-		tween.start(tweenManager);
+		tween.start();
 		
 		assertTweenState(tween, getDefaultState());
 	}
@@ -445,7 +445,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onStart(() -> {tween.complete();});
 
-		tween.start(tweenManager);
+		tween.start();
 
 		assertTweenState(tween, getDefaultStateWith({complete: true}));
 	}
@@ -454,9 +454,9 @@ abstract class TestTween extends TestCaseExt {
 
 	function testStartOnStop() {
 		var tween = createTween();
-		tween.onStop(() -> {tween.start(tweenManager);});
+		tween.onStop(() -> {tween.start();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 
 		assertTweenState(tween, getDefaultStateWith({started: true}));
@@ -466,7 +466,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onStop(() -> {tween.pause();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 		
 		assertTweenState(tween, getDefaultStateWith({paused: true}));
@@ -477,7 +477,7 @@ abstract class TestTween extends TestCaseExt {
 		tween.onStop(() -> {tween.resume();});
 
 		tween.pause();
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 
 		assertTweenState(tween, getDefaultState());
@@ -487,7 +487,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onStop(() -> {tween.reset();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 		assertFalse(tween.isStarted);
 	}
@@ -496,7 +496,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onStop(() -> {tween.complete();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.stop();
 
 		assertTweenState(tween, getDefaultStateWith({complete: true}));
@@ -506,7 +506,7 @@ abstract class TestTween extends TestCaseExt {
 
 	function testStartOnPause() {
 		var tween = createTween();
-		tween.onPause(() -> {tween.start(tweenManager);});
+		tween.onPause(() -> {tween.start();});
 
 		tween.pause();
 
@@ -517,7 +517,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onPause(() -> {tween.stop();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.pause();
 
 		assertTweenState(tween, getDefaultStateWith({paused: true}));
@@ -528,7 +528,7 @@ abstract class TestTween extends TestCaseExt {
 		tween.onPause(() -> {tween.resume();});
 
 		tween.pause();
-		tween.start(tweenManager);
+		tween.start();
 
 		assertTweenState(tween, getDefaultStateWith({started: true}));
 	}
@@ -537,7 +537,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onPause(() -> {tween.reset();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.pause();
 
 		assertTweenState(tween, getDefaultState());
@@ -547,7 +547,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onPause(() -> {tween.complete();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.pause();
 
 		assertTweenState(tween, getDefaultStateWith({complete: true, paused: true}));
@@ -557,7 +557,7 @@ abstract class TestTween extends TestCaseExt {
 
 	function testStartOnResume() {
 		var tween = createTween();
-		tween.onResume(() -> {tween.start(tweenManager);});
+		tween.onResume(() -> {tween.start();});
 
 		tween.pause();
 		tween.resume();
@@ -570,7 +570,7 @@ abstract class TestTween extends TestCaseExt {
 		tween.onResume(() -> {tween.stop();});
 
 		tween.pause();
-		tween.start(tweenManager);
+		tween.start();
 		tween.resume();
 
 		assertTweenState(tween, getDefaultState());
@@ -581,7 +581,7 @@ abstract class TestTween extends TestCaseExt {
 		tween.onResume(() -> {tween.pause();});
 
 		tween.pause();
-		tween.start(tweenManager);
+		tween.start();
 		tween.resume();
 		assertTrue(tween.isPaused);
 	}
@@ -591,7 +591,7 @@ abstract class TestTween extends TestCaseExt {
 		tween.onResume(() -> {tween.reset();});
 
 		tween.pause();
-		tween.start(tweenManager);
+		tween.start();
 		tween.resume();
 
 		assertTweenState(tween, getDefaultState());
@@ -602,7 +602,7 @@ abstract class TestTween extends TestCaseExt {
 		tween.onResume(() -> {tween.complete();});
 
 		tween.pause();
-		tween.start(tweenManager);
+		tween.start();
 		tween.resume();
 
 		assertTweenState(tween, getDefaultStateWith({complete: true}));
@@ -612,9 +612,9 @@ abstract class TestTween extends TestCaseExt {
 
 	function testStartOnReset() {
 		var tween = createTween();
-		tween.onReset(() -> {tween.start(tweenManager);});
+		tween.onReset(() -> {tween.start();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.reset();
 
 		assertTweenState(tween, getDefaultStateWith({started: true}));
@@ -624,7 +624,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onReset(() -> {tween.stop();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.reset();
 
 		assertTweenState(tween, getDefaultState());
@@ -634,7 +634,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onReset(() -> {tween.pause();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.reset();
 		
 		assertTweenState(tween, getDefaultStateWith({paused: true}));
@@ -645,7 +645,7 @@ abstract class TestTween extends TestCaseExt {
 		tween.onReset(() -> {tween.resume();});
 
 		tween.pause();
-		tween.start(tweenManager);
+		tween.start();
 		tween.reset();
 		
 		assertTweenState(tween, getDefaultState());
@@ -655,7 +655,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween();
 		tween.onReset(() -> {tween.complete();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.reset();
 		
 		assertTweenState(tween, getDefaultStateWith({complete: true}));
@@ -665,9 +665,9 @@ abstract class TestTween extends TestCaseExt {
 
 	function testStartOnComplete() {
 		var tween = createTween(100, 1);
-		tween.onComplete(() -> {tween.start(tweenManager);});
+		tween.onComplete(() -> {tween.start();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 		
 		assertTweenState(tween, getDefaultStateWith({started: true}));
@@ -677,7 +677,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween(100, 1);
 		tween.onComplete(() -> {tween.pause();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 		
 		assertTweenState(tween, getDefaultStateWith({paused: true, complete: true}));
@@ -687,7 +687,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween(100, 1);
 		tween.onComplete(() -> {tween.resume();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 		
 		assertTweenState(tween, getDefaultStateWith({complete: true}));
@@ -697,7 +697,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween(100, 1);
 		tween.onComplete(() -> {tween.reset();});
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1);
 		
 		assertTweenState(tween, getDefaultState());
@@ -708,7 +708,7 @@ abstract class TestTween extends TestCaseExt {
 	function testOverflowTime() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		var overflow = tween.update(1.1);
 
 		assertEqualsWithEpsilon(0.1, overflow);
@@ -717,7 +717,7 @@ abstract class TestTween extends TestCaseExt {
 	function testOverflowTimeWithNoDuration() {
 		var tween = createTween(100, 0);
 
-		tween.start(tweenManager);
+		tween.start();
 		var overflow = tween.update(1.1);
 
 		assertEqualsWithEpsilon(1.1, overflow);
@@ -726,7 +726,7 @@ abstract class TestTween extends TestCaseExt {
 	function testOverflowTimeWithNoElapsed() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager);
+		tween.start();
 		var overflow = tween.update(0);
 
 		assertEqualsWithEpsilon(0, overflow);
@@ -736,7 +736,7 @@ abstract class TestTween extends TestCaseExt {
 		var tween = createTween(100, 1);
 		tween.repeat(1);
 
-		tween.start(tweenManager);
+		tween.start();
 		var overflow = tween.update(2.1);
 
 		assertEqualsWithEpsilon(0.1, overflow);

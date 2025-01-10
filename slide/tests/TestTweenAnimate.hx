@@ -23,7 +23,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 	function testStartWithTime() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager, 0.5);
+		tween.start(0.5);
 		tween.update(0.1);
 		assertEqualsWithEpsilon(60, testObject.x);
 	}
@@ -32,7 +32,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		var tween = createTween(100, 1);
 		testObject.x = 50;
 
-		tween.start(tweenManager, 0, false);
+		tween.start(0, false);
 		tween.update(0.1);
 		assertEqualsWithEpsilon(10, testObject.x);
 	}
@@ -42,7 +42,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 	function testMultipleValuesStartWithTime() {
 		var tween1 = createTweenMultipleValues(100, 200, 1);
 
-		tween1.start(tweenManager, 0.5);
+		tween1.start(0.5);
 		tween1.update(0.1);
 		assertEqualsWithEpsilon(60, testObject.x);
 		assertEqualsWithEpsilon(120, testObject.y);
@@ -53,7 +53,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		testObject.x = 50;
 		testObject.y = 100;
 
-		tween1.start(tweenManager, 0, false);
+		tween1.start(0, false);
 		tween1.update(0.1);
 		assertEqualsWithEpsilon(10, testObject.x);
 		assertEqualsWithEpsilon(20, testObject.y);
@@ -64,7 +64,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 	function testAnimateTo() {
 		var tween = createTween(100, 1);
 
-		tween.start(tweenManager, 0);
+		tween.start(0);
 		tween.update(0.1);
 		assertEqualsWithEpsilon(10, testObject.x);
 	}
@@ -72,7 +72,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 	function testAnimateToNegativeValue() {
 		var tween = tweenManager.animateTo(testObject, {x: -100}, 1);
 
-		tween.start(tweenManager, 0);
+		tween.start(0);
 		tween.update(0.1);
 		assertEqualsWithEpsilon(-10, testObject.x);
 	}
@@ -81,7 +81,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		var tween = createTween(100, 1);
 		tween.repeat(1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1.1);
 		assertEqualsWithEpsilon(10, testObject.x);
 	}
@@ -91,7 +91,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		tween.repeat(1);
 		tween.yoyo();
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1.1);
 		assertEqualsWithEpsilon(90, testObject.x);
 	}
@@ -101,7 +101,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 	function testMultipleValuesAnimateTo() {
 		var tween1 = createTweenMultipleValues(100, 200, 1);
 
-		tween1.start(tweenManager);
+		tween1.start();
 		tween1.update(0.1);
 		assertEqualsWithEpsilon(10, testObject.x);
 		assertEqualsWithEpsilon(20, testObject.y);
@@ -110,7 +110,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 	function testMultipleValuesAnimateToNegativeValue() {
 		var tween1 = tweenManager.animateTo(testObject, {x: -100, y: -200}, 1);
 
-		tween1.start(tweenManager);
+		tween1.start();
 		tween1.update(0.1);
 		assertEqualsWithEpsilon(-10, testObject.x);
 		assertEqualsWithEpsilon(-20, testObject.y);
@@ -120,7 +120,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		var tween1 = createTweenMultipleValues(100, 200, 1);
 		tween1.repeat(1);
 
-		tween1.start(tweenManager);
+		tween1.start();
 		tween1.update(1.1);
 		assertEqualsWithEpsilon(10, testObject.x);
 		assertEqualsWithEpsilon(20, testObject.y);
@@ -134,7 +134,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		tween1.repeat(1);
 		tween1.yoyo();
 
-		tween1.start(tweenManager);
+		tween1.start();
 		tween1.update(1.1);
 		assertEqualsWithEpsilon(90, testObject.x);
 		assertEqualsWithEpsilon(180, testObject.y);
@@ -154,7 +154,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 	function testAnimateToEasing() {
 		var tween = tweenManager.animateTo(testObject, {x: 100}, 1, easing);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(0.4);
 		assertEqualsWithEpsilon(getEasingValue(0.4, 100), testObject.x);
 	}
@@ -163,7 +163,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		var tween = tweenManager.animateTo(testObject, {x: 100}, 1, easing);
 		tween.repeat(1);
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1.4);
 		assertEqualsWithEpsilon(getEasingValue(0.4, 100), testObject.x);
 	}
@@ -173,7 +173,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		tween.repeat(1);
 		tween.yoyo();
 
-		tween.start(tweenManager);
+		tween.start();
 		tween.update(1.4);
 		assertEqualsWithEpsilon(getEasingValue(0.6, 100), testObject.x);
 	}
@@ -183,7 +183,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 	function testMultipleValuesAnimateToEasing() {
 		var tween1 = tweenManager.animateTo(testObject, {x: 100, y: 200}, 1, easing);
 
-		tween1.start(tweenManager);
+		tween1.start();
 		tween1.update(0.4);
 		assertEqualsWithEpsilon(getEasingValue(0.4, 100), testObject.x);
 		assertEqualsWithEpsilon(getEasingValue(0.4, 200), testObject.y);
@@ -193,7 +193,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		var tween1 = tweenManager.animateTo(testObject, {x: 100, y: 200}, 1, easing);
 		tween1.repeat(1);
 
-		tween1.start(tweenManager);
+		tween1.start();
 		tween1.update(1.4);
 		assertEqualsWithEpsilon(getEasingValue(0.4, 100), testObject.x);
 		assertEqualsWithEpsilon(getEasingValue(0.4, 200), testObject.y);
@@ -204,7 +204,7 @@ abstract class TestTweenAnimate extends TestCaseExt {
 		tween1.repeat(1);
 		tween1.yoyo();
 
-		tween1.start(tweenManager);
+		tween1.start();
 		tween1.update(1.4);
 		assertEqualsWithEpsilon(getEasingValue(0.6, 100), testObject.x);
 		assertEqualsWithEpsilon(getEasingValue(0.6, 200), testObject.y);

@@ -42,15 +42,12 @@ class TweenSingle<T> extends TweenEmpty {
 			from = getProp(target);
 			to = targetValue;
 		}
-		// trace('---TweenSingle $id buildStartValues : $from -> $to');
 
 		difference = to - from;
 	}
 
 	override function positionChanged(position:Float) {
-		// trace('TweenSingle $id positionChanged : $position');
 		final value = from + difference * position;
-		// trace('TweenSingle $id set value: $value');
 		setProp(target, value);
 	}
 

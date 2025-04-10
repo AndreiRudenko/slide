@@ -11,11 +11,11 @@ class TweenParallel extends TweenBase implements TweenObserver {
 		setObserverForTweens();
 	}
 
-	final public function start(startTime:Float = 0, overrideStartValues:Bool = true) {
+	override final function start(startTime:Float = 0, overrideStartValues:Bool = true) {
 		startInternal(startTime, overrideStartValues, false);
 	}
 
-	final function startInternal(startTime:Float, overrideStartValues:Bool, reverse:Bool) {
+	override final function startInternal(startTime:Float, overrideStartValues:Bool, reverse:Bool) {
 		if (isStarted) return;
 
 		if (tweens.length == 0) {
@@ -37,7 +37,7 @@ class TweenParallel extends TweenBase implements TweenObserver {
 		callOnStart();
 	}
 
-	public function stop() {
+	override function stop() {
 		if (!isStarted) return;
 
 		isStarted = false;
@@ -52,7 +52,7 @@ class TweenParallel extends TweenBase implements TweenObserver {
 		callOnStop();
 	}
 
-	public function complete() {
+	override function complete() {
 		if (isComplete) return;
 		if (isStarted) stop();
 
@@ -65,7 +65,7 @@ class TweenParallel extends TweenBase implements TweenObserver {
 		callOnComplete();
 	}
 	
-	public function reset() {
+	override function reset() {
 		if (isPaused) resume();
 		if (isStarted) stop();
 
@@ -78,7 +78,7 @@ class TweenParallel extends TweenBase implements TweenObserver {
 		callOnReset();
 	}
 	
-	public function update(elapsed:Float):Float {
+	override function update(elapsed:Float):Float {
 		if (!isStarted || isPaused || elapsed <= 0) return 0;
 
 		isUpdating = true;

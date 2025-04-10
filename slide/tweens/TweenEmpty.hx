@@ -13,11 +13,11 @@ class TweenEmpty extends TweenBase {
 		if (easing == null) this.easing = slide.easing.Linear.none;
 	}
 	
-	final public function start(startTime:Float = 0, overrideStartValues:Bool = true) {
+	override final function start(startTime:Float = 0, overrideStartValues:Bool = true) {
 		startInternal(startTime, overrideStartValues, false);
 	}
 
-	final function startInternal(startTime:Float, overrideStartValues:Bool, reverse:Bool) {
+	override final function startInternal(startTime:Float, overrideStartValues:Bool, reverse:Bool) {
 		if (isStarted) return;
 
 		if (isInfinityRepeat() && duration <= 0) {
@@ -40,7 +40,7 @@ class TweenEmpty extends TweenBase {
 		callOnStart();
 	}
 
-	final public function stop() {
+	override final function stop() {
 		if (!isStarted) return;
 
 		isStarted = false;
@@ -51,7 +51,7 @@ class TweenEmpty extends TweenBase {
 		callOnStop();
 	}
 
-	final public function complete() {
+	override final function complete() {
 		if (isComplete) return;
 		if (isStarted) stop();
 
@@ -62,7 +62,7 @@ class TweenEmpty extends TweenBase {
 		callOnComplete();
 	}
 
-	public function reset() {
+	override function reset() {
 		if (isPaused) resume();
 		if (isStarted) stop();
 
@@ -72,7 +72,7 @@ class TweenEmpty extends TweenBase {
 		callOnReset();
 	}
 
-	public function update(elapsed:Float):Float {
+	override function update(elapsed:Float):Float {
 		if (!isStarted || isPaused || elapsed <= 0) return 0;
 
 		isUpdating = true;

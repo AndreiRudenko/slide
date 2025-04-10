@@ -1,6 +1,6 @@
 package slide.tweens;
 
-abstract class TweenBase implements Tween {
+class TweenBase implements Tween {
 	
 	public var isStarted(default, null):Bool = false;
 	public var isPaused(default, null):Bool = false;
@@ -24,12 +24,14 @@ abstract class TweenBase implements Tween {
 	var onResumeCallback:Void->Void;
 	var observer:TweenObserver;
 
-	abstract public function start(startTime:Float = 0, overrideStartValues:Bool = true):Void;
-	abstract function startInternal(startTime:Float, overrideStartValues:Bool, flipReverse:Bool):Void;
-	abstract public function stop():Void;
-	abstract public function reset():Void;
-	abstract public function complete():Void;
-	abstract public function update(elapsed:Float):Float;
+	public function start(startTime:Float = 0, overrideStartValues:Bool = true):Void {}
+	function startInternal(startTime:Float, overrideStartValues:Bool, flipReverse:Bool):Void {}
+	public function stop():Void {}
+	public function reset():Void {}
+	public function complete():Void {}
+	public function update(elapsed:Float):Float {
+		return 0;
+	}
 
 	public function setObserver(tweenObserver:TweenObserver):Void {
 		observer = tweenObserver;
